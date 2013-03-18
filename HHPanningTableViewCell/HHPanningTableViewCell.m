@@ -295,10 +295,18 @@ static HHPanningTableViewCellDirection HHOppositeDirection(HHPanningTableViewCel
 
 	if (revealed) {
 		if (direction == HHPanningTableViewCellDirectionRight) {
-			frame.origin.x = bounds.origin.x + bounds.size.width;
+            if(self.maximumPan) {
+                frame.origin.x = bounds.origin.x + self.maximumPan;
+            } else {
+                frame.origin.x = bounds.origin.x + bounds.size.width;
+            }
 		}
 		else {
-			frame.origin.x = bounds.origin.x - bounds.size.width;
+            if(self.maximumPan) {
+                frame.origin.x  = bounds.origin.x - self.maximumPan;
+            } else {
+                frame.origin.x = bounds.origin.x - bounds.size.width;
+            }
 		}
 
 		self.animationInProgress = YES;
@@ -308,8 +316,6 @@ static HHPanningTableViewCellDirection HHOppositeDirection(HHPanningTableViewCel
         };
 
         void (^completion)(BOOL finished) = ^(BOOL finished) {
-            [containerView removeFromSuperview];
-
             self.animationInProgress = NO;
         };
 
